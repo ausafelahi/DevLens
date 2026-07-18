@@ -28,7 +28,6 @@ export class ChatWithCodebaseService {
   async ask(repositoryId: string, userId: string, question: string) {
     const queryEmbedding = await this.embeddings.embed(question);
 
-    // Cosine similarity search via pgvector's <=> operator (distance — lower is closer).
     const results = await db
       .select({
         filePath: chunks.filePath,

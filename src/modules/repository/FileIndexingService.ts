@@ -36,8 +36,6 @@ export class FileIndexingService {
 
       const allChunks = files.flatMap(chunkFile);
 
-      // Sequential, not Promise.all — Gemini free tier is request-per-day limited,
-      // and a burst of parallel calls risks hitting per-minute throttling too.
       for (const chunk of allChunks) {
         const embedding = await this.embeddings.embed(chunk.content);
         await db.insert(chunksTable).values({

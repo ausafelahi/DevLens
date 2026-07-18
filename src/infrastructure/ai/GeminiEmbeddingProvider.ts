@@ -22,8 +22,6 @@ export class GeminiEmbeddingProvider implements EmbeddingProvider {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           content: { parts: [{ text }] },
-          // 768 dims: ~0.26% quality loss vs default 3072, quarter the storage/compute.
-          // gemini-embedding-001 does NOT auto-normalize truncated output — normalize before storing.
           output_dimensionality: 768,
         }),
       },
@@ -40,8 +38,6 @@ export class GeminiEmbeddingProvider implements EmbeddingProvider {
     return normalize(values);
   }
 
-  // Free tier is request-per-day limited (1,500/day), not batch-endpoint limited,
-  // so batching here just loops — one request per text. Keep chunk counts in mind.
   async embedBatch(texts: string[]): Promise<number[][]> {
     const results: number[][] = [];
     for (const text of texts) {
