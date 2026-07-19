@@ -6,8 +6,9 @@ export class OpenRouterProvider implements CompletionProvider {
   constructor(
     private apiKey: string,
     private model: string = process.env.OPENROUTER_MODEL ??
-      "openai/gpt-oss-20b:free",
-    private fallbackModel: string = "openrouter/free",
+      "google/gemma-4-31b-it:free",
+    private fallbackModel: string = process.env.OPENROUTER_FALLBACK_MODEL ??
+      "nvidia/nemotron-3-super-120b-a12b:free",
   ) {}
 
   async complete(
@@ -34,6 +35,8 @@ export class OpenRouterProvider implements CompletionProvider {
             content: `${contextBlock}\n\nQuestion: ${userPrompt}`,
           },
         ],
+        temperature: 0,
+        top_p: 0.9,
       }),
     });
 
@@ -44,6 +47,7 @@ export class OpenRouterProvider implements CompletionProvider {
     }
 
     const data = await res.json();
+
     return data.choices?.[0]?.message?.content ?? "";
   }
 }

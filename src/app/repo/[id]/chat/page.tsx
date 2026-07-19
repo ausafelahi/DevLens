@@ -1,8 +1,11 @@
 "use client";
 
 import { UserButton } from "@clerk/nextjs";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "next/navigation";
+import { MessageContent } from "@/components/chat/MessageContent";
+import { ThinkingSteps } from "@/components/chat/ThinkingSteps";
 
 type Message = {
   id: string;
@@ -69,7 +72,6 @@ export default function ChatPage() {
 
   return (
     <div className="flex min-h-screen flex-col bg-[#12141C] text-[#EDEAE0]">
-      {/* Header — "you are here" framing, sets the guided-onboarding tone */}
       <header className="flex items-center justify-between border-b border-[#262A38] px-6 py-4">
         <div className="flex items-center gap-2 text-sm text-[#8B90A3]">
           <span className="text-[#E8A33D]">◆</span>
@@ -78,10 +80,23 @@ export default function ChatPage() {
             is too basic.
           </span>
         </div>
-        <UserButton />
+        <div className="flex items-center gap-4">
+          <Link
+            href={`/repo/${repositoryId}/architecture`}
+            className="text-sm text-[#8B90A3] hover:text-[#E8A33D]"
+          >
+            Architecture map →
+          </Link>
+          <Link
+            href={`/repo/${repositoryId}/root-cause`}
+            className="text-sm text-[#8B90A3] hover:text-[#E8A33D]"
+          >
+            Debug an error →
+          </Link>
+          <UserButton />
+        </div>
       </header>
 
-      {/* Message trail */}
       <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-6 px-6 py-8">
         {messages.length === 0 && (
           <div className="mt-16 text-center">
@@ -116,13 +131,9 @@ export default function ChatPage() {
                   : "border border-[#262A38] bg-[#181B26] text-[#EDEAE0]"
               }`}
             >
-              <p className="whitespace-pre-wrap text-[15px] leading-relaxed">
-                {msg.content}
-              </p>
+              <MessageContent content={msg.content} />
             </div>
 
-            {/* Signature element: breadcrumb trail of files behind the answer —
-                makes the "guide" metaphor concrete instead of decorative */}
             {msg.relatedFiles.length > 0 && (
               <div className="mt-2 flex flex-wrap gap-1.5">
                 {msg.relatedFiles.map((file) => (
@@ -139,12 +150,17 @@ export default function ChatPage() {
         ))}
 
         {asking && (
-          <p className="text-sm text-[#8B90A3]">Reading through the code…</p>
+          <ThinkingSteps
+            steps={[
+              "Searching the codebase…",
+              "Reading relevant files…",
+              "Drafting an answer…",
+            ]}
+          />
         )}
         <div ref={bottomRef} />
       </main>
 
-      {/* Input */}
       <footer className="border-t border-[#262A38] px-6 py-4">
         <div className="mx-auto flex max-w-3xl gap-2">
           <input

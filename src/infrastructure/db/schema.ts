@@ -56,3 +56,17 @@ export const architectureReports = pgTable("architecture_reports", {
   fileTree: jsonb("file_tree").$type<string[]>().notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
+
+export const rootCauseReports = pgTable("root_cause_reports", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  repositoryId: uuid("repository_id")
+    .references(() => repositories.id, { onDelete: "cascade" })
+    .notNull(),
+  userId: text("user_id").notNull(),
+  input: text("input").notNull(),
+  explanation: text("explanation").notNull(),
+  affectedFiles: jsonb("affected_files").$type<string[]>().default([]),
+  suggestedFixes: text("suggested_fixes").notNull(),
+  riskLevel: text("risk_level").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
