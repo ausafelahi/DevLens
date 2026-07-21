@@ -50,6 +50,28 @@ export class GitHubClient {
     return data.default_branch;
   }
 
+  async getFileContent(
+    owner: string,
+    repo: string,
+    path: string,
+    branch: string,
+  ): Promise<string | null> {
+    try {
+      const { data } = await this.octokit.rest.repos.getContent({
+        owner,
+        repo,
+        path,
+        ref: branch,
+      });
+      if (Array.isArray(data) || data.type !== "file" || !("content" in data))
+        return null;
+      return Buffer.from(data.content, "base64").toString("utf-8");
+    } catch (err) {
+      if ((err as { status?: number }).status === 404) return null;
+      throw err;
+    }
+  }
+
   async fetchIndexableFiles(
     owner: string,
     repo: string,

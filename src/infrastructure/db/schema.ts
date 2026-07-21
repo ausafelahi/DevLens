@@ -70,3 +70,43 @@ export const rootCauseReports = pgTable("root_cause_reports", {
   riskLevel: text("risk_level").notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
+
+export const codeReviewReports = pgTable("code_review_reports", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  repositoryId: uuid("repository_id")
+    .references(() => repositories.id, { onDelete: "cascade" })
+    .notNull(),
+  userId: text("user_id").notNull(),
+  filePath: text("file_path").notNull(),
+  findings: jsonb("findings")
+    .$type<
+      {
+        category: string;
+        severity: string;
+        comment: string;
+        suggestion: string;
+      }[]
+    >()
+    .notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+export const dependencyReports = pgTable("dependency_reports", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  repositoryId: uuid("repository_id")
+    .references(() => repositories.id, { onDelete: "cascade" })
+    .notNull(),
+  userId: text("user_id").notNull(),
+  packages: jsonb("packages")
+    .$type<
+      {
+        name: string;
+        declaredRange: string;
+        latestVersion: string | null;
+        isOutdated: boolean;
+        possiblyUnused: boolean;
+        vulnerabilities: { id: string; summary: string }[];
+      }[]
+    >()
+    .notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});

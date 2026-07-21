@@ -52,7 +52,17 @@ function iconFor(name: string) {
   return EXT_ICON[ext] ?? "○";
 }
 
-function TreeRow({ node, depth }: { node: TreeNode; depth: number }) {
+function TreeRow({
+  node,
+  depth,
+  onSelectFile,
+  selectedPath,
+}: {
+  node: TreeNode;
+  depth: number;
+  onSelectFile?: (path: string) => void;
+  selectedPath?: string;
+}) {
   const [open, setOpen] = useState(depth < 1);
   const sorted = [...node.children.values()].sort((a, b) => {
     if (a.isFile !== b.isFile) return a.isFile ? 1 : -1;
@@ -61,13 +71,19 @@ function TreeRow({ node, depth }: { node: TreeNode; depth: number }) {
 
   if (node.isFile) {
     return (
-      <div
-        className="flex items-center gap-2 rounded px-2 py-1 font-mono text-xs text-[#8B90A3] transition-colors hover:bg-[#1F2330] hover:text-[#EDEAE0]"
+      <button
+        onClick={() => onSelectFile?.(node.path)}
+        disabled={!onSelectFile}
+        className={`flex w-full items-center gap-2 rounded px-2 py-1 text-left font-mono text-xs transition-colors ${
+          selectedPath === node.path
+            ? "bg-[#E8A33D]/15 text-[#E8A33D]"
+            : "text-[#8B90A3] hover:bg-[#1F2330] hover:text-[#EDEAE0]"
+        }`}
         style={{ paddingLeft: `${depth * 16 + 8}px` }}
       >
         <span className="text-[#E8A33D]">{iconFor(node.name)}</span>
         {node.name}
-      </div>
+      </button>
     );
   }
 
@@ -90,17 +106,36 @@ function TreeRow({ node, depth }: { node: TreeNode; depth: number }) {
       )}
       {open &&
         sorted.map((child) => (
-          <TreeRow key={child.path} node={child} depth={depth + 1} />
+          <TreeRow
+            key={child.path}
+            node={child}
+            depth={depth + 1}
+            onSelectFile={onSelectFile}
+            selectedPath={selectedPath}
+          />
         ))}
     </div>
   );
 }
 
-export function FileTree({ paths }: { paths: string[] }) {
+export function FileTree({
+  paths,
+  onSelectFile,
+  selectedPath,
+}: {
+  paths: string[];
+  onSelectFile?: (path: string) => void;
+  selectedPath?: string;
+}) {
   const tree = buildTree(paths);
   return (
     <div className="max-h-96 overflow-y-auto rounded-xl border border-[#262A38] bg-[#0F1119] p-2">
-      <TreeRow node={tree} depth={-1} />
+      <TreeRow
+        node={tree}
+        depth={-1}
+        onSelectFile={onSelectFile}
+        selectedPath={selectedPath}
+      />
     </div>
   );
 }
