@@ -110,3 +110,35 @@ export const dependencyReports = pgTable("dependency_reports", {
     .notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
+
+export const techDebtReports = pgTable("tech_debt_reports", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  repositoryId: uuid("repository_id")
+    .references(() => repositories.id, { onDelete: "cascade" })
+    .notNull(),
+  userId: text("user_id").notNull(),
+  maintainabilityScore: integer("maintainability_score").notNull(),
+  issues: jsonb("issues")
+    .$type<
+      {
+        filePath: string;
+        type: string;
+        severity: string;
+        description: string;
+        recommendation: string;
+      }[]
+    >()
+    .notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const documentationReports = pgTable("documentation_reports", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  repositoryId: uuid("repository_id")
+    .references(() => repositories.id, { onDelete: "cascade" })
+    .notNull(),
+  userId: text("user_id").notNull(),
+  docType: text("doc_type").notNull(),
+  content: text("content").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});

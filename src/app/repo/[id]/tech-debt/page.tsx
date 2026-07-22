@@ -1,0 +1,163 @@
+"use client";
+
+import { UserButton } from "@clerk/nextjs";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
+import { ThinkingSteps } from "@/components/chat/ThinkingSteps";
+
+type Issue = {
+  filePath: string;
+  type: string;
+  severity: string;
+  description: string;
+  recommendation: string;
+};
+type Report = { maintainabilityScore: number; issues: Issue[] };
+
+const SEVERITY_STYLES: Record<string, string> = {
+  low: "bg-[#8B90A3]/15 text-[#8B90A3] border-[#8B90A3]/30",
+  medium: "bg-[#E8A33D]/15 text-[#E8A33D] border-[#E8A33D]/30",
+  high: "bg-red-500/15 text-red-400 border-red-500/30",
+};
+
+const SEVERITY_ORDER: Record<string, number> = { high: 0, medium: 1, low: 2 };
+
+function scoreColor(score: number) {
+  if (score >= 80) return "text-green-400";
+  if (score >= 50) return "text-[#E8A33D]";
+  return "text-red-400";
+}
+
+export default function TechDebtPage() {
+  const { id: repositoryId } = useParams<{ id: string }>();
+  const [report, setReport] = useState<Report | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetch(`/api/repos/${repositoryId}/tech-debt`)
+      .then((res) => res.json())
+      .then((data) => data && setReport(data));
+  }, [repositoryId]);
+
+  const scan = async () => {
+    setLoading(true);
+    setError(null);
+    const res = await fetch(`/api/repos/${repositoryId}/tech-debt`, {
+      method: "POST",
+    });
+    const data = await res.json();
+    setLoading(false);
+    if (res.ok) setReport(data);
+    else setError(data.error);
+  };
+
+  const sortedIssues = report?.issues
+    .slice()
+    .sort((a, b) => SEVERITY_ORDER[a.severity] - SEVERITY_ORDER[b.severity]);
+
+  return (
+    <div className="flex min-h-screen flex-col bg-[#12141C] text-[#EDEAE0]">
+      <header className="flex items-center justify-between border-b border-[#262A38] px-6 py-4">
+        <div className="flex items-center gap-4">
+          <Link
+            href={`/repo/${repositoryId}/chat`}
+            className="text-sm text-[#8B90A3] hover:text-[#E8A33D]"
+          >
+            ← Back to chat
+          </Link>
+          <div className="flex items-center gap-2 text-sm text-[#8B90A3]">
+            <span className="text-[#E8A33D]">◆</span>
+            <span>A maintainability check — what to clean up first.</span>
+          </div>
+        </div>
+        <UserButton />
+      </header>
+
+      <main className="mx-auto w-full max-w-3xl flex-1 px-6 py-8">
+        {!report && !loading && (
+          <div className="mt-16 text-center">
+            <button
+              onClick={scan}
+              className="rounded-xl bg-[#E8A33D] px-5 py-3 font-medium text-[#12141C]"
+            >
+              Scan for tech debt
+            </button>
+          </div>
+        )}
+
+        {loading && (
+          <div className="mt-16 flex justify-center">
+            <ThinkingSteps
+              steps={[
+                "Measuring file sizes…",
+                "Looking for duplicate logic…",
+                "Scoring maintainability…",
+              ]}
+            />
+          </div>
+        )}
+
+        {error && <p className="mt-4 text-center text-red-400">{error}</p>}
+
+        {report && !loading && (
+          <div className="space-y-6">
+            <div className="flex items-center justify-between rounded-2xl border border-[#262A38] bg-[#181B26] p-6">
+              <div>
+                <p className="text-sm text-[#8B90A3]">Maintainability score</p>
+                <p
+                  className={`text-4xl font-semibold ${scoreColor(report.maintainabilityScore)}`}
+                >
+                  {report.maintainabilityScore}
+                  <span className="text-lg text-[#8B90A3]">/100</span>
+                </p>
+              </div>
+              <button
+                onClick={scan}
+                className="rounded-lg border border-[#262A38] px-3 py-1.5 text-sm text-[#8B90A3] hover:border-[#E8A33D] hover:text-[#E8A33D]"
+              >
+                Re-scan
+              </button>
+            </div>
+
+            {sortedIssues?.length === 0 && (
+              <p className="text-center text-[#8B90A3]">
+                No significant issues found — clean codebase.
+              </p>
+            )}
+
+            {sortedIssues?.map((issue, i) => (
+              <div
+                key={i}
+                className="rounded-2xl border border-[#262A38] bg-[#181B26] p-4"
+              >
+                <div className="mb-2 flex items-center gap-2">
+                  <span
+                    className={`rounded-full border px-2.5 py-0.5 text-xs font-medium uppercase tracking-wide ${
+                      SEVERITY_STYLES[issue.severity] ?? SEVERITY_STYLES.low
+                    }`}
+                  >
+                    {issue.severity}
+                  </span>
+                  <span className="font-mono text-xs text-[#8B90A3]">
+                    {issue.filePath}
+                  </span>
+                  <span className="text-xs text-[#8B90A3]">
+                    · {issue.type.replace("_", " ")}
+                  </span>
+                </div>
+                <p className="text-[15px] leading-relaxed">
+                  {issue.description}
+                </p>
+                <p className="mt-2 border-l-2 border-[#E8A33D]/40 pl-3 text-sm text-[#8B90A3]">
+                  {issue.recommendation}
+                </p>
+              </div>
+            ))}
+          </div>
+        )}
+      </main>
+    </div>
+  );
+}
