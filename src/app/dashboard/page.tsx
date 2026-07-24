@@ -3,6 +3,7 @@
 import { UserButton } from "@clerk/nextjs";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { FadeIn } from "@/components/chat/FadeIn";
 
 type Repo = {
   id: string;
@@ -96,42 +97,41 @@ export default function Dashboard() {
         )}
 
         <div className="space-y-3">
-          {repos.map((repo) => (
-            <div
-              key={repo.id}
-              className="rounded-2xl border border-[#262A38] bg-[#181B26] p-4"
-            >
-              <div className="mb-3 flex items-center justify-between">
-                <span className="font-medium">{repo.name}</span>
-                <span
-                  className={`rounded-full border px-2.5 py-0.5 text-xs font-medium uppercase tracking-wide ${
-                    STATUS_STYLES[repo.status] ?? STATUS_STYLES.pending
-                  }`}
-                >
-                  {repo.status}
-                </span>
-              </div>
-
-              {repo.status === "ready" ? (
-                <div className="flex flex-wrap gap-2">
-                  {QUICK_LINKS.map((link) => (
-                    <Link
-                      key={link.path}
-                      href={`/repo/${repo.id}/${link.path}`}
-                      className="rounded-lg border border-[#262A38] px-3 py-1 text-xs text-[#8B90A3] transition-colors hover:border-[#E8A33D] hover:text-[#E8A33D]"
-                    >
-                      {link.label}
-                    </Link>
-                  ))}
+          {repos.map((repo, i) => (
+            <FadeIn key={repo.id} delay={i * 60}>
+              <div className="rounded-2xl border border-[#262A38] bg-[#181B26] p-4">
+                <div className="mb-3 flex items-center justify-between">
+                  <span className="font-medium">{repo.name}</span>
+                  <span
+                    className={`rounded-full border px-2.5 py-0.5 text-xs font-medium uppercase tracking-wide ${
+                      STATUS_STYLES[repo.status] ?? STATUS_STYLES.pending
+                    }`}
+                  >
+                    {repo.status}
+                  </span>
                 </div>
-              ) : (
-                <p className="text-sm text-[#8B90A3]">
-                  {repo.status === "failed"
-                    ? "Indexing failed — try re-importing."
-                    : "Indexing in progress…"}
-                </p>
-              )}
-            </div>
+
+                {repo.status === "ready" ? (
+                  <div className="flex flex-wrap gap-2">
+                    {QUICK_LINKS.map((link) => (
+                      <Link
+                        key={link.path}
+                        href={`/repo/${repo.id}/${link.path}`}
+                        className="rounded-lg border border-[#262A38] px-3 py-1 text-xs text-[#8B90A3] transition-colors hover:border-[#E8A33D] hover:text-[#E8A33D]"
+                      >
+                        {link.label}
+                      </Link>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-sm text-[#8B90A3]">
+                    {repo.status === "failed"
+                      ? "Indexing failed — try re-importing."
+                      : "Indexing in progress…"}
+                  </p>
+                )}
+              </div>
+            </FadeIn>
           ))}
         </div>
       </main>

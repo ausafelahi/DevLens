@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useParams } from "next/navigation";
 import { ThinkingSteps } from "@/components/chat/ThinkingSteps";
+import { FadeIn } from "@/components/chat/FadeIn";
 
 type Report = {
   id: string;
@@ -96,50 +97,52 @@ export default function RootCausePage() {
         {error && <p className="mt-4 text-red-400">{error}</p>}
 
         {report && (
-          <div className="mt-6 space-y-4">
-            <div className="flex items-center gap-3">
-              <span
-                className={`rounded-full border px-3 py-1 text-xs font-medium uppercase tracking-wide ${
-                  RISK_STYLES[report.riskLevel] ?? RISK_STYLES.medium
-                }`}
-              >
-                {report.riskLevel} risk
-              </span>
-            </div>
-
-            <div className="rounded-2xl border border-[#262A38] bg-[#181B26] p-5">
-              <h2 className="mb-2 text-sm font-medium text-[#8B90A3]">
-                What's likely happening
-              </h2>
-              <p className="whitespace-pre-wrap text-[15px] leading-relaxed">
-                {report.explanation}
-              </p>
-            </div>
-
-            {report.affectedFiles.length > 0 && (
-              <div className="flex flex-wrap gap-1.5">
-                {report.affectedFiles.map((f) => (
-                  <span
-                    key={f}
-                    className="rounded border border-[#262A38] bg-[#181B26] px-2 py-0.5 font-mono text-xs text-[#8B90A3]"
-                  >
-                    {f}
-                  </span>
-                ))}
+          <FadeIn>
+            <div className="mt-6 space-y-4">
+              <div className="flex items-center gap-3">
+                <span
+                  className={`rounded-full border px-3 py-1 text-xs font-medium uppercase tracking-wide ${
+                    RISK_STYLES[report.riskLevel] ?? RISK_STYLES.medium
+                  }`}
+                >
+                  {report.riskLevel} risk
+                </span>
               </div>
-            )}
 
-            {report.suggestedFixes && (
               <div className="rounded-2xl border border-[#262A38] bg-[#181B26] p-5">
                 <h2 className="mb-2 text-sm font-medium text-[#8B90A3]">
-                  Suggested fix
+                  What's likely happening
                 </h2>
                 <p className="whitespace-pre-wrap text-[15px] leading-relaxed">
-                  {report.suggestedFixes}
+                  {report.explanation}
                 </p>
               </div>
-            )}
-          </div>
+
+              {report.affectedFiles.length > 0 && (
+                <div className="flex flex-wrap gap-1.5">
+                  {report.affectedFiles.map((f) => (
+                    <span
+                      key={f}
+                      className="rounded border border-[#262A38] bg-[#181B26] px-2 py-0.5 font-mono text-xs text-[#8B90A3]"
+                    >
+                      {f}
+                    </span>
+                  ))}
+                </div>
+              )}
+
+              {report.suggestedFixes && (
+                <div className="rounded-2xl border border-[#262A38] bg-[#181B26] p-5">
+                  <h2 className="mb-2 text-sm font-medium text-[#8B90A3]">
+                    Suggested fix
+                  </h2>
+                  <p className="whitespace-pre-wrap text-[15px] leading-relaxed">
+                    {report.suggestedFixes}
+                  </p>
+                </div>
+              )}
+            </div>
+          </FadeIn>
         )}
       </main>
     </div>

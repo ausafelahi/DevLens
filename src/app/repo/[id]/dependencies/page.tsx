@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useParams } from "next/navigation";
 import { ThinkingSteps } from "@/components/chat/ThinkingSteps";
+import { FadeIn } from "@/components/chat/FadeIn";
 
 type PackageResult = {
   name: string;
@@ -93,42 +94,41 @@ export default function DependenciesPage() {
               </button>
             </div>
 
-            {packages.map((pkg) => (
-              <div
-                key={pkg.name}
-                className="rounded-xl border border-[#262A38] bg-[#181B26] p-4"
-              >
-                <div className="flex items-center justify-between">
-                  <span className="font-mono text-sm">{pkg.name}</span>
-                  <span className="font-mono text-xs text-[#8B90A3]">
-                    {pkg.declaredRange}{" "}
-                    {pkg.latestVersion && `→ latest ${pkg.latestVersion}`}
-                  </span>
+            {packages.map((pkg, i) => (
+              <FadeIn key={pkg.name} delay={i * 60}>
+                <div className="rounded-xl border border-[#262A38] bg-[#181B26] p-4">
+                  <div className="flex items-center justify-between">
+                    <span className="font-mono text-sm">{pkg.name}</span>
+                    <span className="font-mono text-xs text-[#8B90A3]">
+                      {pkg.declaredRange}{" "}
+                      {pkg.latestVersion && `→ latest ${pkg.latestVersion}`}
+                    </span>
+                  </div>
+                  <div className="mt-2 flex flex-wrap gap-1.5">
+                    {pkg.isOutdated && (
+                      <span className="rounded-full border border-[#E8A33D]/30 bg-[#E8A33D]/15 px-2 py-0.5 text-xs text-[#E8A33D]">
+                        Outdated
+                      </span>
+                    )}
+                    {pkg.possiblyUnused && (
+                      <span className="rounded-full border border-[#8B90A3]/30 bg-[#8B90A3]/15 px-2 py-0.5 text-xs text-[#8B90A3]">
+                        Possibly unused
+                      </span>
+                    )}
+                    {pkg.vulnerabilities.length > 0 && (
+                      <span className="rounded-full border border-red-500/30 bg-red-500/15 px-2 py-0.5 text-xs text-red-400">
+                        {pkg.vulnerabilities.length} known vulnerability
+                        {pkg.vulnerabilities.length > 1 ? "ies" : ""}
+                      </span>
+                    )}
+                  </div>
+                  {pkg.vulnerabilities.map((v) => (
+                    <p key={v.id} className="mt-2 text-xs text-red-400/80">
+                      {v.id}: {v.summary}
+                    </p>
+                  ))}
                 </div>
-                <div className="mt-2 flex flex-wrap gap-1.5">
-                  {pkg.isOutdated && (
-                    <span className="rounded-full border border-[#E8A33D]/30 bg-[#E8A33D]/15 px-2 py-0.5 text-xs text-[#E8A33D]">
-                      Outdated
-                    </span>
-                  )}
-                  {pkg.possiblyUnused && (
-                    <span className="rounded-full border border-[#8B90A3]/30 bg-[#8B90A3]/15 px-2 py-0.5 text-xs text-[#8B90A3]">
-                      Possibly unused
-                    </span>
-                  )}
-                  {pkg.vulnerabilities.length > 0 && (
-                    <span className="rounded-full border border-red-500/30 bg-red-500/15 px-2 py-0.5 text-xs text-red-400">
-                      {pkg.vulnerabilities.length} known vulnerability
-                      {pkg.vulnerabilities.length > 1 ? "ies" : ""}
-                    </span>
-                  )}
-                </div>
-                {pkg.vulnerabilities.map((v) => (
-                  <p key={v.id} className="mt-2 text-xs text-red-400/80">
-                    {v.id}: {v.summary}
-                  </p>
-                ))}
-              </div>
+              </FadeIn>
             ))}
           </div>
         )}

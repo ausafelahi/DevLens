@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { FileTree } from "@/components/dashboard/FileTree";
 import { ThinkingSteps } from "@/components/chat/ThinkingSteps";
+import { FadeIn } from "@/components/chat/FadeIn";
 
 type Finding = {
   category: string;
@@ -118,27 +119,28 @@ export default function CodeReviewPage() {
               )}
 
               {report.findings.map((f, i) => (
-                <div
-                  key={i}
-                  className="rounded-2xl border border-[#262A38] bg-[#181B26] p-4"
-                >
-                  <div className="mb-2 flex items-center gap-2">
-                    <span
-                      className={`rounded-full border px-2.5 py-0.5 text-xs font-medium uppercase tracking-wide ${
-                        SEVERITY_STYLES[f.severity] ?? SEVERITY_STYLES.info
-                      }`}
-                    >
-                      {f.severity}
-                    </span>
-                    <span className="text-xs text-[#8B90A3]">{f.category}</span>
+                <FadeIn key={i} delay={i * 80}>
+                  <div className="rounded-2xl border border-[#262A38] bg-[#181B26] p-4">
+                    <div className="mb-2 flex items-center gap-2">
+                      <span
+                        className={`rounded-full border px-2.5 py-0.5 text-xs font-medium uppercase tracking-wide ${
+                          SEVERITY_STYLES[f.severity] ?? SEVERITY_STYLES.info
+                        }`}
+                      >
+                        {f.severity}
+                      </span>
+                      <span className="text-xs text-[#8B90A3]">
+                        {f.category}
+                      </span>
+                    </div>
+                    <p className="text-[15px] leading-relaxed">{f.comment}</p>
+                    {f.suggestion && (
+                      <p className="mt-2 border-l-2 border-[#E8A33D]/40 pl-3 text-sm text-[#8B90A3]">
+                        {f.suggestion}
+                      </p>
+                    )}
                   </div>
-                  <p className="text-[15px] leading-relaxed">{f.comment}</p>
-                  {f.suggestion && (
-                    <p className="mt-2 border-l-2 border-[#E8A33D]/40 pl-3 text-sm text-[#8B90A3]">
-                      {f.suggestion}
-                    </p>
-                  )}
-                </div>
+                </FadeIn>
               ))}
             </div>
           )}

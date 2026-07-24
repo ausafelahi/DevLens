@@ -7,6 +7,7 @@ import { useParams } from "next/navigation";
 import { FileTree } from "@/components/dashboard/FileTree";
 import { ThinkingSteps } from "@/components/chat/ThinkingSteps";
 import { MessageContent } from "@/components/chat/MessageContent";
+import { FadeIn } from "@/components/chat/FadeIn";
 
 type Report = {
   id: string;
@@ -95,35 +96,37 @@ export default function ArchitecturePage() {
         {error && <p className="mt-4 text-center text-red-400">{error}</p>}
 
         {report && (
-          <div className="space-y-6">
-            <div className="flex items-center justify-between">
-              <h1 className="text-lg font-semibold">Architecture overview</h1>
-              <button
-                onClick={generate}
-                disabled={loading}
-                className="rounded-lg border border-[#262A38] px-3 py-1.5 text-sm text-[#8B90A3] hover:border-[#E8A33D] hover:text-[#E8A33D]"
-              >
-                Regenerate
-              </button>
-            </div>
-
-            <div className="rounded-2xl border border-[#262A38] bg-[#181B26] p-5">
-              <MessageContent content={report.summary} />
-            </div>
-
-            <details
-              className="rounded-2xl border border-[#262A38] bg-[#181B26] p-5"
-              open
-            >
-              <summary className="cursor-pointer text-sm text-[#8B90A3]">
-                File tree ({report.fileTree.length} files) — click folders to
-                expand
-              </summary>
-              <div className="mt-3">
-                <FileTree paths={report.fileTree} />
+          <FadeIn>
+            <div className="space-y-6">
+              <div className="flex items-center justify-between">
+                <h1 className="text-lg font-semibold">Architecture overview</h1>
+                <button
+                  onClick={generate}
+                  disabled={loading}
+                  className="rounded-lg border border-[#262A38] px-3 py-1.5 text-sm text-[#8B90A3] hover:border-[#E8A33D] hover:text-[#E8A33D]"
+                >
+                  Regenerate
+                </button>
               </div>
-            </details>
-          </div>
+
+              <div className="rounded-2xl border border-[#262A38] bg-[#181B26] p-5">
+                <MessageContent content={report.summary} />
+              </div>
+
+              <details
+                className="rounded-2xl border border-[#262A38] bg-[#181B26] p-5"
+                open
+              >
+                <summary className="cursor-pointer text-sm text-[#8B90A3]">
+                  File tree ({report.fileTree.length} files) — click folders to
+                  expand
+                </summary>
+                <div className="mt-3">
+                  <FileTree paths={report.fileTree} />
+                </div>
+              </details>
+            </div>
+          </FadeIn>
         )}
       </main>
     </div>

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { ThinkingSteps } from "@/components/chat/ThinkingSteps";
+import { FadeIn } from "@/components/chat/FadeIn";
 
 type Issue = {
   filePath: string;
@@ -103,23 +104,27 @@ export default function TechDebtPage() {
 
         {report && !loading && (
           <div className="space-y-6">
-            <div className="flex items-center justify-between rounded-2xl border border-[#262A38] bg-[#181B26] p-6">
-              <div>
-                <p className="text-sm text-[#8B90A3]">Maintainability score</p>
-                <p
-                  className={`text-4xl font-semibold ${scoreColor(report.maintainabilityScore)}`}
+            <FadeIn>
+              <div className="flex items-center justify-between rounded-2xl border border-[#262A38] bg-[#181B26] p-6">
+                <div>
+                  <p className="text-sm text-[#8B90A3]">
+                    Maintainability score
+                  </p>
+                  <p
+                    className={`text-4xl font-semibold ${scoreColor(report.maintainabilityScore)}`}
+                  >
+                    {report.maintainabilityScore}
+                    <span className="text-lg text-[#8B90A3]">/100</span>
+                  </p>
+                </div>
+                <button
+                  onClick={scan}
+                  className="rounded-lg border border-[#262A38] px-3 py-1.5 text-sm text-[#8B90A3] hover:border-[#E8A33D] hover:text-[#E8A33D]"
                 >
-                  {report.maintainabilityScore}
-                  <span className="text-lg text-[#8B90A3]">/100</span>
-                </p>
+                  Re-scan
+                </button>
               </div>
-              <button
-                onClick={scan}
-                className="rounded-lg border border-[#262A38] px-3 py-1.5 text-sm text-[#8B90A3] hover:border-[#E8A33D] hover:text-[#E8A33D]"
-              >
-                Re-scan
-              </button>
-            </div>
+            </FadeIn>
 
             {sortedIssues?.length === 0 && (
               <p className="text-center text-[#8B90A3]">
@@ -128,32 +133,31 @@ export default function TechDebtPage() {
             )}
 
             {sortedIssues?.map((issue, i) => (
-              <div
-                key={i}
-                className="rounded-2xl border border-[#262A38] bg-[#181B26] p-4"
-              >
-                <div className="mb-2 flex items-center gap-2">
-                  <span
-                    className={`rounded-full border px-2.5 py-0.5 text-xs font-medium uppercase tracking-wide ${
-                      SEVERITY_STYLES[issue.severity] ?? SEVERITY_STYLES.low
-                    }`}
-                  >
-                    {issue.severity}
-                  </span>
-                  <span className="font-mono text-xs text-[#8B90A3]">
-                    {issue.filePath}
-                  </span>
-                  <span className="text-xs text-[#8B90A3]">
-                    · {issue.type.replace("_", " ")}
-                  </span>
+              <FadeIn key={i} delay={100 + i * 80}>
+                <div className="rounded-2xl border border-[#262A38] bg-[#181B26] p-4">
+                  <div className="mb-2 flex items-center gap-2">
+                    <span
+                      className={`rounded-full border px-2.5 py-0.5 text-xs font-medium uppercase tracking-wide ${
+                        SEVERITY_STYLES[issue.severity] ?? SEVERITY_STYLES.low
+                      }`}
+                    >
+                      {issue.severity}
+                    </span>
+                    <span className="font-mono text-xs text-[#8B90A3]">
+                      {issue.filePath}
+                    </span>
+                    <span className="text-xs text-[#8B90A3]">
+                      · {issue.type.replace("_", " ")}
+                    </span>
+                  </div>
+                  <p className="text-[15px] leading-relaxed">
+                    {issue.description}
+                  </p>
+                  <p className="mt-2 border-l-2 border-[#E8A33D]/40 pl-3 text-sm text-[#8B90A3]">
+                    {issue.recommendation}
+                  </p>
                 </div>
-                <p className="text-[15px] leading-relaxed">
-                  {issue.description}
-                </p>
-                <p className="mt-2 border-l-2 border-[#E8A33D]/40 pl-3 text-sm text-[#8B90A3]">
-                  {issue.recommendation}
-                </p>
-              </div>
+              </FadeIn>
             ))}
           </div>
         )}

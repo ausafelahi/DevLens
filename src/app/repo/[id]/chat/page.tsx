@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { useParams } from "next/navigation";
 import { MessageContent } from "@/components/chat/MessageContent";
 import { ThinkingSteps } from "@/components/chat/ThinkingSteps";
+import { FadeIn } from "@/components/chat/FadeIn";
 
 type Message = {
   id: string;
@@ -148,28 +149,30 @@ export default function ChatPage() {
             key={msg.id}
             className={msg.role === "user" ? "self-end" : "self-start"}
           >
-            <div
-              className={`max-w-xl rounded-2xl px-4 py-3 ${
-                msg.role === "user"
-                  ? "bg-[#E8A33D] text-[#12141C]"
-                  : "border border-[#262A38] bg-[#181B26] text-[#EDEAE0]"
-              }`}
-            >
-              <MessageContent content={msg.content} />
-            </div>
-
-            {msg.relatedFiles.length > 0 && (
-              <div className="mt-2 flex flex-wrap gap-1.5">
-                {msg.relatedFiles.map((file) => (
-                  <span
-                    key={file}
-                    className="rounded border border-[#262A38] bg-[#181B26] px-2 py-0.5 font-mono text-xs text-[#8B90A3]"
-                  >
-                    {file}
-                  </span>
-                ))}
+            <FadeIn>
+              <div
+                className={`max-w-xl rounded-2xl px-4 py-3 ${
+                  msg.role === "user"
+                    ? "bg-[#E8A33D] text-[#12141C]"
+                    : "border border-[#262A38] bg-[#181B26] text-[#EDEAE0]"
+                }`}
+              >
+                <MessageContent content={msg.content} />
               </div>
-            )}
+
+              {msg.relatedFiles.length > 0 && (
+                <div className="mt-2 flex flex-wrap gap-1.5">
+                  {msg.relatedFiles.map((file) => (
+                    <span
+                      key={file}
+                      className="rounded border border-[#262A38] bg-[#181B26] px-2 py-0.5 font-mono text-xs text-[#8B90A3]"
+                    >
+                      {file}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </FadeIn>
           </div>
         ))}
 

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useParams } from "next/navigation";
 import { ThinkingSteps } from "@/components/chat/ThinkingSteps";
+import { FadeIn } from "@/components/chat/FadeIn";
 
 type DocType = "readme" | "api" | "setup";
 const TABS: { key: DocType; label: string }[] = [
@@ -47,7 +48,11 @@ export default function DocumentationPage() {
 
   const download = () => {
     if (!content) return;
-    const filenames: Record<DocType, string> = { readme: "README.md", api: "API.md", setup: "SETUP.md" };
+    const filenames: Record<DocType, string> = {
+      readme: "README.md",
+      api: "API.md",
+      setup: "SETUP.md",
+    };
     const blob = new Blob([content], { type: "text/markdown" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -61,12 +66,17 @@ export default function DocumentationPage() {
     <div className="flex min-h-screen flex-col bg-[#12141C] text-[#EDEAE0]">
       <header className="flex items-center justify-between border-b border-[#262A38] px-6 py-4">
         <div className="flex items-center gap-4">
-          <Link href={`/repo/${repositoryId}/chat`} className="text-sm text-[#8B90A3] hover:text-[#E8A33D]">
+          <Link
+            href={`/repo/${repositoryId}/chat`}
+            className="text-sm text-[#8B90A3] hover:text-[#E8A33D]"
+          >
             ← Back to chat
           </Link>
           <div className="flex items-center gap-2 text-sm text-[#8B90A3]">
             <span className="text-[#E8A33D]">◆</span>
-            <span>Docs, written for someone who's never seen this project.</span>
+            <span>
+              Docs, written for someone who's never seen this project.
+            </span>
           </div>
         </div>
         <UserButton />
@@ -90,13 +100,19 @@ export default function DocumentationPage() {
         </div>
 
         {!content && !loading && (
-          <p className="text-center text-[#8B90A3]">Pick a doc type above to generate it.</p>
+          <p className="text-center text-[#8B90A3]">
+            Pick a doc type above to generate it.
+          </p>
         )}
 
         {loading && (
           <div className="mt-16 flex justify-center">
             <ThinkingSteps
-              steps={["Reading the codebase…", "Structuring the document…", "Writing it up…"]}
+              steps={[
+                "Reading the codebase…",
+                "Structuring the document…",
+                "Writing it up…",
+              ]}
             />
           </div>
         )}
@@ -104,25 +120,27 @@ export default function DocumentationPage() {
         {error && <p className="text-center text-red-400">{error}</p>}
 
         {content && !loading && (
-          <div>
-            <div className="mb-3 flex justify-end gap-2">
-              <button
-                onClick={copyToClipboard}
-                className="rounded-lg border border-[#262A38] px-3 py-1.5 text-sm text-[#8B90A3] hover:border-[#E8A33D] hover:text-[#E8A33D]"
-              >
-                {copied ? "Copied!" : "Copy"}
-              </button>
-              <button
-                onClick={download}
-                className="rounded-lg border border-[#262A38] px-3 py-1.5 text-sm text-[#8B90A3] hover:border-[#E8A33D] hover:text-[#E8A33D]"
-              >
-                Download
-              </button>
+          <FadeIn>
+            <div>
+              <div className="mb-3 flex justify-end gap-2">
+                <button
+                  onClick={copyToClipboard}
+                  className="rounded-lg border border-[#262A38] px-3 py-1.5 text-sm text-[#8B90A3] hover:border-[#E8A33D] hover:text-[#E8A33D]"
+                >
+                  {copied ? "Copied!" : "Copy"}
+                </button>
+                <button
+                  onClick={download}
+                  className="rounded-lg border border-[#262A38] px-3 py-1.5 text-sm text-[#8B90A3] hover:border-[#E8A33D] hover:text-[#E8A33D]"
+                >
+                  Download
+                </button>
+              </div>
+              <pre className="overflow-x-auto whitespace-pre-wrap rounded-2xl border border-[#262A38] bg-[#181B26] p-5 font-mono text-sm leading-relaxed text-[#EDEAE0]">
+                {content}
+              </pre>
             </div>
-            <pre className="overflow-x-auto whitespace-pre-wrap rounded-2xl border border-[#262A38] bg-[#181B26] p-5 font-mono text-sm leading-relaxed text-[#EDEAE0]">
-              {content}
-            </pre>
-          </div>
+          </FadeIn>
         )}
       </main>
     </div>
