@@ -111,6 +111,12 @@ export default function ChatPage() {
           >
             Tech debt →
           </Link>
+          <Link
+            href={`/repo/${repositoryId}/documentation`}
+            className="text-sm text-[#8B90A3] hover:text-[#E8A33D]"
+          >
+            Docs →
+          </Link>
           <UserButton />
         </div>
       </header>

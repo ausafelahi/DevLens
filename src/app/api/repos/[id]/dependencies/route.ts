@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import { DependencyAnalyzerService } from "@/modules/analysis/DependencyAnalyzerService";
 import { GitHubClient } from "@/infrastructure/github/GitHubClient";
+import { getUserGitHubToken } from "@/infrastructure/github/getUserGitHubToken";
 
 export async function POST(
   req: NextRequest,
@@ -14,7 +15,9 @@ export async function POST(
   const { id: repositoryId } = await params;
 
   try {
-    const github = new GitHubClient(process.env.GITHUB_TOKEN!);
+    const token =
+      (await getUserGitHubToken(userId)) ?? process.env.GITHUB_TOKEN!;
+    const github = new GitHubClient(token);
     const service = new DependencyAnalyzerService(github);
     const report = await service.analyze(repositoryId, userId);
     return NextResponse.json(report, { status: 201 });
