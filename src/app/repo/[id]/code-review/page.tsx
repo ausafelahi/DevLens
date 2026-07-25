@@ -19,7 +19,8 @@ type Report = { id: string; filePath: string; findings: Finding[] };
 const SEVERITY_STYLES: Record<string, string> = {
   info: "bg-[var(--color-muted)]/15 text-[var(--color-muted)] border-[var(--color-muted)]/30",
   minor: "bg-blue-500/15 text-blue-400 border-blue-500/30",
-  major: "bg-[var(--color-accent)]/15 text-[var(--color-accent)] border-[var(--color-accent)]/30",
+  major:
+    "bg-[var(--color-accent)]/15 text-[var(--color-accent)] border-[var(--color-accent)]/30",
   critical: "bg-red-500/15 text-red-400 border-red-500/30",
 };
 
@@ -33,8 +34,19 @@ export default function CodeReviewPage() {
 
   useEffect(() => {
     fetch(`/api/repos/${repositoryId}/files`)
-      .then((res) => res.json())
-      .then(setFiles);
+      .then(async (res) => {
+        const data = await res.json();
+        if (!res.ok || !Array.isArray(data)) {
+          setError(
+            typeof data?.error === "string"
+              ? data.error
+              : "Couldn't load the file list.",
+          );
+          return;
+        }
+        setFiles(data);
+      })
+      .catch(() => setError("Couldn't load the file list."));
   }, [repositoryId]);
 
   const runReview = async (filePath: string) => {
@@ -56,7 +68,7 @@ export default function CodeReviewPage() {
 
   return (
     <div className="flex min-h-screen flex-col bg-[var(--color-bg)] text-[var(--color-fg)]">
-      <header className="flex items-center justify-between border-b border-[var(--color-border)] px-6 py-4">
+      <header className="flex flex-col gap-3 border-b border-[var(--color-border)] px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
         <div className="flex items-center gap-4">
           <Link
             href={`/repo/${repositoryId}/chat`}
@@ -64,7 +76,10 @@ export default function CodeReviewPage() {
           >
             ← Back to chat
           </Link>
-          <div className="flex items-center gap-2 text-sm text-[var(--color-muted)]" style={{ fontFamily: "var(--font-mono)" }}>
+          <div
+            className="flex items-center gap-2 text-sm text-[var(--color-muted)]"
+            style={{ fontFamily: "var(--font-mono)" }}
+          >
             <span className="text-[var(--color-accent)]">◆</span>
             <span>
               Pick a file — get a review that explains the why, not just the
@@ -75,7 +90,7 @@ export default function CodeReviewPage() {
         <UserButton />
       </header>
 
-      <main className="mx-auto grid w-full max-w-5xl flex-1 grid-cols-[280px_1fr] gap-6 px-6 py-8">
+      <main className="mx-auto grid w-full max-w-5xl flex-1 grid-cols-1 gap-6 px-4 py-8 sm:px-6 lg:grid-cols-[280px_1fr]">
         <aside>
           <h2 className="mb-2 text-sm font-medium text-[var(--color-muted)]">
             Files ({files.length})

@@ -36,7 +36,7 @@ export default function DependenciesPage() {
 
   return (
     <div className="flex min-h-screen flex-col bg-[var(--color-bg)] text-[var(--color-fg)]">
-      <header className="flex items-center justify-between border-b border-[var(--color-border)] px-6 py-4">
+      <header className="flex flex-col gap-3 border-b border-[var(--color-border)] px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
         <div className="flex items-center gap-4">
           <Link
             href={`/repo/${repositoryId}/chat`}
@@ -57,7 +57,7 @@ export default function DependenciesPage() {
         <UserButton />
       </header>
 
-      <main className="mx-auto w-full max-w-3xl flex-1 px-6 py-8">
+      <main className="mx-auto w-full max-w-3xl flex-1 px-4 py-8 sm:px-6">
         {!packages && !loading && (
           <div className="mt-16 text-center">
             <button
@@ -123,8 +123,7 @@ export default function DependenciesPage() {
                     )}
                     {pkg.vulnerabilities.length > 0 && (
                       <span className="rounded-full border border-red-500/30 bg-red-500/15 px-2 py-0.5 text-xs text-red-400">
-                        {pkg.vulnerabilities.length} known vulnerability
-                        {pkg.vulnerabilities.length > 1 ? "ies" : ""}
+                        {pkg.vulnerabilities.length} known vulnerabilities
                       </span>
                     )}
                   </div>

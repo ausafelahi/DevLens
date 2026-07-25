@@ -48,7 +48,7 @@ export default function RootCausePage() {
 
   return (
     <div className="flex min-h-screen flex-col bg-[var(--color-bg)] text-[var(--color-fg)]">
-      <header className="flex items-center justify-between border-b border-[var(--color-border)] px-6 py-4">
+      <header className="flex flex-col gap-3 border-b border-[var(--color-border)] px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
         <div className="flex items-center gap-4">
           <Link
             href={`/repo/${repositoryId}/chat`}
@@ -70,7 +70,7 @@ export default function RootCausePage() {
         <UserButton />
       </header>
 
-      <main className="mx-auto w-full max-w-3xl flex-1 px-6 py-8">
+      <main className="mx-auto w-full max-w-3xl flex-1 px-4 py-8 sm:px-6">
         <textarea
           className="h-40 w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4 font-mono text-sm text-[var(--color-fg)] placeholder:text-[var(--color-muted)] focus:border-[var(--color-accent)] focus:outline-none"
           placeholder={`TypeError: Cannot read properties of undefined (reading 'id')\n    at queueService.dequeueNextPatient (queueService.js:42)\n    ...`}

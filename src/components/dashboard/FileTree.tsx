@@ -16,6 +16,7 @@ function buildTree(paths: string[]): TreeNode {
     isFile: false,
     children: new Map(),
   };
+  if (!Array.isArray(paths)) return root;
   for (const path of paths) {
     const parts = path.split("/");
     let current = root;
@@ -119,7 +120,7 @@ function TreeRow({
 }
 
 export function FileTree({
-  paths,
+  paths = [],
   onSelectFile,
   selectedPath,
 }: {

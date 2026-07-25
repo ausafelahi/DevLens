@@ -14,7 +14,6 @@ export default function Home() {
     }
   }, [isLoaded, isSignedIn, router]);
 
-  // Signed-in users are redirected — avoid flashing the signed-out hero.
   if (!isLoaded || isSignedIn) {
     return (
       <main className="flex min-h-screen items-center justify-center bg-[var(--color-bg)] text-[var(--color-fg)]">

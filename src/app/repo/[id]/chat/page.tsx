@@ -73,48 +73,51 @@ export default function ChatPage() {
 
   return (
     <div className="flex min-h-screen flex-col bg-[var(--color-bg)] text-[var(--color-fg)]">
-      <header className="flex items-center justify-between border-b border-[var(--color-border)] px-6 py-4">
+      <header className="flex flex-col gap-3 border-b border-[var(--color-border)] px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
         <div
           className="flex items-center gap-2 text-sm text-[var(--color-muted)]"
           style={{ fontFamily: "var(--font-mono)" }}
         >
           <span className="text-[var(--color-accent)]">◆</span>
-          <span>You're exploring an unfamiliar codebase — ask anything</span>
+          <span>
+            You're exploring an unfamiliar codebase — ask anything, no question
+            is too basic.
+          </span>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 overflow-x-auto whitespace-nowrap pb-1 sm:pb-0">
           <Link
             href={`/repo/${repositoryId}/architecture`}
-            className="text-sm text-[var(--color-muted)] hover:text-[var(--color-accent)]"
+            className="shrink-0 text-sm text-[var(--color-muted)] hover:text-[var(--color-accent)]"
           >
             Architecture map →
           </Link>
           <Link
             href={`/repo/${repositoryId}/root-cause`}
-            className="text-sm text-[var(--color-muted)] hover:text-[var(--color-accent)]"
+            className="shrink-0 text-sm text-[var(--color-muted)] hover:text-[var(--color-accent)]"
           >
             Debug an error →
           </Link>
           <Link
             href={`/repo/${repositoryId}/code-review`}
-            className="text-sm text-[var(--color-muted)] hover:text-[var(--color-accent)]"
+            className="shrink-0 text-sm text-[var(--color-muted)] hover:text-[var(--color-accent)]"
           >
             Code review →
           </Link>
           <Link
             href={`/repo/${repositoryId}/dependencies`}
-            className="text-sm text-[var(--color-muted)] hover:text-[var(--color-accent)]"
+            className="shrink-0 text-sm text-[var(--color-muted)] hover:text-[var(--color-accent)]"
           >
             Dependencies →
           </Link>
           <Link
             href={`/repo/${repositoryId}/tech-debt`}
-            className="text-sm text-[var(--color-muted)] hover:text-[var(--color-accent)]"
+            className="shrink-0 text-sm text-[var(--color-muted)] hover:text-[var(--color-accent)]"
           >
             Tech debt →
           </Link>
           <Link
             href={`/repo/${repositoryId}/documentation`}
-            className="text-sm text-[var(--color-muted)] hover:text-[var(--color-accent)]"
+            className="shrink-0 text-sm text-[var(--color-muted)] hover:text-[var(--color-accent)]"
           >
             Docs →
           </Link>
@@ -122,7 +125,7 @@ export default function ChatPage() {
         </div>
       </header>
 
-      <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-6 px-6 py-8">
+      <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-6 px-4 py-8 sm:px-6">
         {messages.length === 0 && (
           <div className="mt-16 text-center">
             <p className="text-lg text-[var(--color-muted)]">
@@ -190,7 +193,7 @@ export default function ChatPage() {
         <div ref={bottomRef} />
       </main>
 
-      <footer className="border-t border-[var(--color-border)] px-6 py-4">
+      <footer className="border-t border-[var(--color-border)] px-4 py-4 sm:px-6">
         <div className="mx-auto flex max-w-3xl gap-2">
           <input
             className="flex-1 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-3 text-[15px] text-[var(--color-fg)] placeholder:text-[var(--color-muted)] focus:border-[var(--color-accent)] focus:outline-none"
