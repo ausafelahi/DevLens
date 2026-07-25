@@ -1,32 +1,35 @@
 "use client";
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
-import Link from "next/link";
-import { Space_Grotesk, Manrope, IBM_Plex_Mono } from "next/font/google";
 
-const display = Space_Grotesk({
-  subsets: ["latin"],
-  variable: "--font-display",
-  weight: ["500", "700"],
-});
-
-const body = Manrope({
-  subsets: ["latin"],
-  variable: "--font-body",
-  weight: ["400", "500", "600"],
-});
-
-const mono = IBM_Plex_Mono({
-  subsets: ["latin"],
-  variable: "--font-mono",
-  weight: ["400", "500"],
-});
+import { SignedOut, SignInButton, useUser } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function Home() {
+  const { isSignedIn, isLoaded } = useUser();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (isLoaded && isSignedIn) {
+      router.push("/dashboard");
+    }
+  }, [isLoaded, isSignedIn, router]);
+
+  // Signed-in users are redirected — avoid flashing the signed-out hero.
+  if (!isLoaded || isSignedIn) {
+    return (
+      <main className="flex min-h-screen items-center justify-center bg-[var(--color-bg)] text-[var(--color-fg)]">
+        <span
+          className="text-sm text-[var(--color-muted)]"
+          style={{ fontFamily: "var(--font-mono)" }}
+        >
+          Loading…
+        </span>
+      </main>
+    );
+  }
+
   return (
-    <main
-      className={`${display.variable} ${body.variable} ${mono.variable} relative min-h-screen overflow-hidden bg-[var(--color-bg)] text-[var(--color-fg)]`}
-      style={{ fontFamily: "var(--font-body)" }}
-    >
+    <main className="relative min-h-screen overflow-hidden bg-[var(--color-bg)] text-[var(--color-fg)]">
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.05]"
         style={{
@@ -44,18 +47,6 @@ export default function Home() {
           >
             DEVLENS<span className="text-[var(--color-accent)]">_AI</span>
           </span>
-
-          <SignedIn>
-            <div className="flex items-center gap-3">
-              <UserButton />
-              <Link
-                href="/dashboard"
-                className="text-sm text-[var(--color-muted)] transition-colors duration-200 ease-out hover:text-[var(--color-fg)]"
-              >
-                Dashboard →
-              </Link>
-            </div>
-          </SignedIn>
         </header>
 
         <div className="flex flex-1 flex-col items-center justify-center gap-16 py-16 lg:flex-row lg:items-center lg:gap-14">
@@ -92,14 +83,6 @@ export default function Home() {
                   </button>
                 </SignInButton>
               </SignedOut>
-              <SignedIn>
-                <Link
-                  href="/dashboard"
-                  className="inline-block rounded-md bg-[var(--color-accent)] px-5 py-2.5 text-sm font-medium text-[var(--color-accent-fg)] transition-transform duration-200 ease-out hover:-translate-y-0.5 hover:shadow-lg hover:shadow-black/30"
-                >
-                  Go to dashboard
-                </Link>
-              </SignedIn>
             </div>
 
             <p

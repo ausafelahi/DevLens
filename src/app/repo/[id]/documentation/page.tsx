@@ -72,7 +72,10 @@ export default function DocumentationPage() {
           >
             ← Back to chat
           </Link>
-          <div className="flex items-center gap-2 text-sm text-[var(--color-muted)]">
+          <div
+            className="flex items-center gap-2 text-sm text-[var(--color-muted)]"
+            style={{ fontFamily: "var(--font-mono)" }}
+          >
             <span className="text-[var(--color-accent)]">◆</span>
             <span>
               Docs, written for someone who's never seen this project.

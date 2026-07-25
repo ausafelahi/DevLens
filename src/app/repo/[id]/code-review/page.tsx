@@ -19,8 +19,7 @@ type Report = { id: string; filePath: string; findings: Finding[] };
 const SEVERITY_STYLES: Record<string, string> = {
   info: "bg-[var(--color-muted)]/15 text-[var(--color-muted)] border-[var(--color-muted)]/30",
   minor: "bg-blue-500/15 text-blue-400 border-blue-500/30",
-  major:
-    "bg-[var(--color-accent)]/15 text-[var(--color-accent)] border-[var(--color-accent)]/30",
+  major: "bg-[var(--color-accent)]/15 text-[var(--color-accent)] border-[var(--color-accent)]/30",
   critical: "bg-red-500/15 text-red-400 border-red-500/30",
 };
 
@@ -65,7 +64,7 @@ export default function CodeReviewPage() {
           >
             ← Back to chat
           </Link>
-          <div className="flex items-center gap-2 text-sm text-[var(--color-muted)]">
+          <div className="flex items-center gap-2 text-sm text-[var(--color-muted)]" style={{ fontFamily: "var(--font-mono)" }}>
             <span className="text-[var(--color-accent)]">◆</span>
             <span>
               Pick a file — get a review that explains the why, not just the

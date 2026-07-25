@@ -56,7 +56,10 @@ export default function ArchitecturePage() {
           >
             ← Back to chat
           </Link>
-          <div className="flex items-center gap-2 text-sm text-[var(--color-muted)]">
+          <div
+            className="flex items-center gap-2 text-sm text-[var(--color-muted)]"
+            style={{ fontFamily: "var(--font-mono)" }}
+          >
             <span className="text-[var(--color-accent)]">◆</span>
             <span>
               A map of this codebase, for someone seeing it the first time.
@@ -99,7 +102,12 @@ export default function ArchitecturePage() {
           <FadeIn>
             <div className="space-y-6">
               <div className="flex items-center justify-between">
-                <h1 className="text-lg font-semibold">Architecture overview</h1>
+                <h1
+                  className="text-lg font-semibold"
+                  style={{ fontFamily: "var(--font-display)" }}
+                >
+                  Architecture overview
+                </h1>
                 <button
                   onClick={generate}
                   disabled={loading}

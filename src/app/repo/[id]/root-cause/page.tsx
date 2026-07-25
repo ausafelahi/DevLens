@@ -56,7 +56,10 @@ export default function RootCausePage() {
           >
             ← Back to chat
           </Link>
-          <div className="flex items-center gap-2 text-sm text-[var(--color-muted)]">
+          <div
+            className="flex items-center gap-2 text-sm text-[var(--color-muted)]"
+            style={{ fontFamily: "var(--font-mono)" }}
+          >
             <span className="text-[var(--color-accent)]">◆</span>
             <span>
               Paste an error, log, or stack trace — let's find what's really

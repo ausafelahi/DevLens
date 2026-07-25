@@ -74,12 +74,12 @@ export default function ChatPage() {
   return (
     <div className="flex min-h-screen flex-col bg-[var(--color-bg)] text-[var(--color-fg)]">
       <header className="flex items-center justify-between border-b border-[var(--color-border)] px-6 py-4">
-        <div className="flex items-center gap-2 text-sm text-[var(--color-muted)]">
+        <div
+          className="flex items-center gap-2 text-sm text-[var(--color-muted)]"
+          style={{ fontFamily: "var(--font-mono)" }}
+        >
           <span className="text-[var(--color-accent)]">◆</span>
-          <span>
-            You're exploring an unfamiliar codebase — ask anything, no question
-            is too basic.
-          </span>
+          <span>You're exploring an unfamiliar codebase — ask anything</span>
         </div>
         <div className="flex items-center gap-4">
           <Link

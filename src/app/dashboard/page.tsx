@@ -65,7 +65,10 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-[var(--color-bg)] text-[var(--color-fg)]">
       <header className="flex items-center justify-between border-b border-[var(--color-border)] px-6 py-4">
-        <div className="flex items-center gap-2 text-sm text-[var(--color-muted)]">
+        <div
+          className="flex items-center gap-2 text-sm text-[var(--color-muted)]"
+          style={{ fontFamily: "var(--font-mono)" }}
+        >
           <span className="text-[var(--color-accent)]">◆</span>
           <span>DevLens AI</span>
         </div>
@@ -73,7 +76,12 @@ export default function Dashboard() {
       </header>
 
       <main className="mx-auto max-w-3xl px-6 py-8">
-        <h1 className="mb-4 text-xl font-semibold">Your repositories</h1>
+        <h1
+          className="mb-4 text-xl font-semibold"
+          style={{ fontFamily: "var(--font-display)" }}
+        >
+          Your repositories
+        </h1>
 
         <div className="mb-8 flex gap-2">
           <input

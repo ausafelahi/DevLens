@@ -44,7 +44,10 @@ export default function DependenciesPage() {
           >
             ← Back to chat
           </Link>
-          <div className="flex items-center gap-2 text-sm text-[var(--color-muted)]">
+          <div
+            className="flex items-center gap-2 text-sm text-[var(--color-muted)]"
+            style={{ fontFamily: "var(--font-mono)" }}
+          >
             <span className="text-[var(--color-accent)]">◆</span>
             <span>
               What's in package.json, and what it's quietly costing you.
@@ -83,7 +86,10 @@ export default function DependenciesPage() {
         {packages && (
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <h1 className="text-lg font-semibold">
+              <h1
+                className="text-lg font-semibold"
+                style={{ fontFamily: "var(--font-display)" }}
+              >
                 {packages.length} dependencies
               </h1>
               <button

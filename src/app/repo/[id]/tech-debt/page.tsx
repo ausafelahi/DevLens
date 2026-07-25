@@ -69,7 +69,10 @@ export default function TechDebtPage() {
           >
             ← Back to chat
           </Link>
-          <div className="flex items-center gap-2 text-sm text-[var(--color-muted)]">
+          <div
+            className="flex items-center gap-2 text-sm text-[var(--color-muted)]"
+            style={{ fontFamily: "var(--font-mono)" }}
+          >
             <span className="text-[var(--color-accent)]">◆</span>
             <span>A maintainability check — what to clean up first.</span>
           </div>
@@ -113,6 +116,7 @@ export default function TechDebtPage() {
                   </p>
                   <p
                     className={`text-4xl font-semibold ${scoreColor(report.maintainabilityScore)}`}
+                    style={{ fontFamily: "var(--font-display)" }}
                   >
                     {report.maintainabilityScore}
                     <span className="text-lg text-[var(--color-muted)]">
