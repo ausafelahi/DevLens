@@ -63,17 +63,17 @@ export default function DocumentationPage() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#12141C] text-[#EDEAE0]">
-      <header className="flex items-center justify-between border-b border-[#262A38] px-6 py-4">
+    <div className="flex min-h-screen flex-col bg-[var(--color-bg)] text-[var(--color-fg)]">
+      <header className="flex items-center justify-between border-b border-[var(--color-border)] px-6 py-4">
         <div className="flex items-center gap-4">
           <Link
             href={`/repo/${repositoryId}/chat`}
-            className="text-sm text-[#8B90A3] hover:text-[#E8A33D]"
+            className="text-sm text-[var(--color-muted)] hover:text-[var(--color-accent)]"
           >
             ← Back to chat
           </Link>
-          <div className="flex items-center gap-2 text-sm text-[#8B90A3]">
-            <span className="text-[#E8A33D]">◆</span>
+          <div className="flex items-center gap-2 text-sm text-[var(--color-muted)]">
+            <span className="text-[var(--color-accent)]">◆</span>
             <span>
               Docs, written for someone who's never seen this project.
             </span>
@@ -90,8 +90,8 @@ export default function DocumentationPage() {
               onClick={() => generate(tab.key)}
               className={`rounded-full border px-4 py-1.5 text-sm transition-colors ${
                 activeTab === tab.key
-                  ? "border-[#E8A33D] bg-[#E8A33D]/15 text-[#E8A33D]"
-                  : "border-[#262A38] text-[#8B90A3] hover:border-[#E8A33D] hover:text-[#E8A33D]"
+                  ? "border-[var(--color-accent)] bg-[var(--color-accent)]/15 text-[var(--color-accent)]"
+                  : "border-[var(--color-border)] text-[var(--color-muted)] hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]"
               }`}
             >
               {tab.label}
@@ -100,7 +100,7 @@ export default function DocumentationPage() {
         </div>
 
         {!content && !loading && (
-          <p className="text-center text-[#8B90A3]">
+          <p className="text-center text-[var(--color-muted)]">
             Pick a doc type above to generate it.
           </p>
         )}
@@ -125,18 +125,18 @@ export default function DocumentationPage() {
               <div className="mb-3 flex justify-end gap-2">
                 <button
                   onClick={copyToClipboard}
-                  className="rounded-lg border border-[#262A38] px-3 py-1.5 text-sm text-[#8B90A3] hover:border-[#E8A33D] hover:text-[#E8A33D]"
+                  className="rounded-lg border border-[var(--color-border)] px-3 py-1.5 text-sm text-[var(--color-muted)] hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]"
                 >
                   {copied ? "Copied!" : "Copy"}
                 </button>
                 <button
                   onClick={download}
-                  className="rounded-lg border border-[#262A38] px-3 py-1.5 text-sm text-[#8B90A3] hover:border-[#E8A33D] hover:text-[#E8A33D]"
+                  className="rounded-lg border border-[var(--color-border)] px-3 py-1.5 text-sm text-[var(--color-muted)] hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]"
                 >
                   Download
                 </button>
               </div>
-              <pre className="overflow-x-auto whitespace-pre-wrap rounded-2xl border border-[#262A38] bg-[#181B26] p-5 font-mono text-sm leading-relaxed text-[#EDEAE0]">
+              <pre className="overflow-x-auto whitespace-pre-wrap rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-5 font-mono text-sm leading-relaxed text-[var(--color-fg)]">
                 {content}
               </pre>
             </div>

@@ -17,7 +17,8 @@ type Report = {
 
 const RISK_STYLES: Record<string, string> = {
   low: "bg-green-500/15 text-green-400 border-green-500/30",
-  medium: "bg-[#E8A33D]/15 text-[#E8A33D] border-[#E8A33D]/30",
+  medium:
+    "bg-[var(--color-accent)]/15 text-[var(--color-accent)] border-[var(--color-accent)]/30",
   high: "bg-red-500/15 text-red-400 border-red-500/30",
 };
 
@@ -46,17 +47,17 @@ export default function RootCausePage() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#12141C] text-[#EDEAE0]">
-      <header className="flex items-center justify-between border-b border-[#262A38] px-6 py-4">
+    <div className="flex min-h-screen flex-col bg-[var(--color-bg)] text-[var(--color-fg)]">
+      <header className="flex items-center justify-between border-b border-[var(--color-border)] px-6 py-4">
         <div className="flex items-center gap-4">
           <Link
             href={`/repo/${repositoryId}/chat`}
-            className="text-sm text-[#8B90A3] hover:text-[#E8A33D]"
+            className="text-sm text-[var(--color-muted)] hover:text-[var(--color-accent)]"
           >
             ← Back to chat
           </Link>
-          <div className="flex items-center gap-2 text-sm text-[#8B90A3]">
-            <span className="text-[#E8A33D]">◆</span>
+          <div className="flex items-center gap-2 text-sm text-[var(--color-muted)]">
+            <span className="text-[var(--color-accent)]">◆</span>
             <span>
               Paste an error, log, or stack trace — let's find what's really
               going on.
@@ -68,7 +69,7 @@ export default function RootCausePage() {
 
       <main className="mx-auto w-full max-w-3xl flex-1 px-6 py-8">
         <textarea
-          className="h-40 w-full rounded-xl border border-[#262A38] bg-[#181B26] p-4 font-mono text-sm text-[#EDEAE0] placeholder:text-[#8B90A3] focus:border-[#E8A33D] focus:outline-none"
+          className="h-40 w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4 font-mono text-sm text-[var(--color-fg)] placeholder:text-[var(--color-muted)] focus:border-[var(--color-accent)] focus:outline-none"
           placeholder={`TypeError: Cannot read properties of undefined (reading 'id')\n    at queueService.dequeueNextPatient (queueService.js:42)\n    ...`}
           value={errorInput}
           onChange={(e) => setErrorInput(e.target.value)}
@@ -77,7 +78,7 @@ export default function RootCausePage() {
         <button
           onClick={analyze}
           disabled={loading || !errorInput.trim()}
-          className="mt-3 rounded-xl bg-[#E8A33D] px-5 py-3 font-medium text-[#12141C] disabled:opacity-40"
+          className="mt-3 rounded-xl bg-[var(--color-accent)] px-5 py-3 font-medium text-[var(--color-bg)] disabled:opacity-40"
         >
           Analyze
         </button>
@@ -109,8 +110,8 @@ export default function RootCausePage() {
                 </span>
               </div>
 
-              <div className="rounded-2xl border border-[#262A38] bg-[#181B26] p-5">
-                <h2 className="mb-2 text-sm font-medium text-[#8B90A3]">
+              <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-5">
+                <h2 className="mb-2 text-sm font-medium text-[var(--color-muted)]">
                   What's likely happening
                 </h2>
                 <p className="whitespace-pre-wrap text-[15px] leading-relaxed">
@@ -123,7 +124,7 @@ export default function RootCausePage() {
                   {report.affectedFiles.map((f) => (
                     <span
                       key={f}
-                      className="rounded border border-[#262A38] bg-[#181B26] px-2 py-0.5 font-mono text-xs text-[#8B90A3]"
+                      className="rounded border border-[var(--color-border)] bg-[var(--color-surface)] px-2 py-0.5 font-mono text-xs text-[var(--color-muted)]"
                     >
                       {f}
                     </span>
@@ -132,8 +133,8 @@ export default function RootCausePage() {
               )}
 
               {report.suggestedFixes && (
-                <div className="rounded-2xl border border-[#262A38] bg-[#181B26] p-5">
-                  <h2 className="mb-2 text-sm font-medium text-[#8B90A3]">
+                <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-5">
+                  <h2 className="mb-2 text-sm font-medium text-[var(--color-muted)]">
                     Suggested fix
                   </h2>
                   <p className="whitespace-pre-wrap text-[15px] leading-relaxed">

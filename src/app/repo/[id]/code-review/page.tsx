@@ -17,9 +17,10 @@ type Finding = {
 type Report = { id: string; filePath: string; findings: Finding[] };
 
 const SEVERITY_STYLES: Record<string, string> = {
-  info: "bg-[#8B90A3]/15 text-[#8B90A3] border-[#8B90A3]/30",
+  info: "bg-[var(--color-muted)]/15 text-[var(--color-muted)] border-[var(--color-muted)]/30",
   minor: "bg-blue-500/15 text-blue-400 border-blue-500/30",
-  major: "bg-[#E8A33D]/15 text-[#E8A33D] border-[#E8A33D]/30",
+  major:
+    "bg-[var(--color-accent)]/15 text-[var(--color-accent)] border-[var(--color-accent)]/30",
   critical: "bg-red-500/15 text-red-400 border-red-500/30",
 };
 
@@ -55,17 +56,17 @@ export default function CodeReviewPage() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#12141C] text-[#EDEAE0]">
-      <header className="flex items-center justify-between border-b border-[#262A38] px-6 py-4">
+    <div className="flex min-h-screen flex-col bg-[var(--color-bg)] text-[var(--color-fg)]">
+      <header className="flex items-center justify-between border-b border-[var(--color-border)] px-6 py-4">
         <div className="flex items-center gap-4">
           <Link
             href={`/repo/${repositoryId}/chat`}
-            className="text-sm text-[#8B90A3] hover:text-[#E8A33D]"
+            className="text-sm text-[var(--color-muted)] hover:text-[var(--color-accent)]"
           >
             ← Back to chat
           </Link>
-          <div className="flex items-center gap-2 text-sm text-[#8B90A3]">
-            <span className="text-[#E8A33D]">◆</span>
+          <div className="flex items-center gap-2 text-sm text-[var(--color-muted)]">
+            <span className="text-[var(--color-accent)]">◆</span>
             <span>
               Pick a file — get a review that explains the why, not just the
               what.
@@ -77,7 +78,7 @@ export default function CodeReviewPage() {
 
       <main className="mx-auto grid w-full max-w-5xl flex-1 grid-cols-[280px_1fr] gap-6 px-6 py-8">
         <aside>
-          <h2 className="mb-2 text-sm font-medium text-[#8B90A3]">
+          <h2 className="mb-2 text-sm font-medium text-[var(--color-muted)]">
             Files ({files.length})
           </h2>
           <FileTree
@@ -89,7 +90,7 @@ export default function CodeReviewPage() {
 
         <section>
           {!selectedFile && (
-            <p className="mt-16 text-center text-[#8B90A3]">
+            <p className="mt-16 text-center text-[var(--color-muted)]">
               Select a file to review it.
             </p>
           )}
@@ -108,19 +109,19 @@ export default function CodeReviewPage() {
 
           {report && !loading && (
             <div className="space-y-4">
-              <h2 className="font-mono text-sm text-[#8B90A3]">
+              <h2 className="font-mono text-sm text-[var(--color-muted)]">
                 {report.filePath}
               </h2>
 
               {report.findings.length === 0 && (
-                <p className="text-[#8B90A3]">
+                <p className="text-[var(--color-muted)]">
                   No notable findings — looks solid.
                 </p>
               )}
 
               {report.findings.map((f, i) => (
                 <FadeIn key={i} delay={i * 80}>
-                  <div className="rounded-2xl border border-[#262A38] bg-[#181B26] p-4">
+                  <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
                     <div className="mb-2 flex items-center gap-2">
                       <span
                         className={`rounded-full border px-2.5 py-0.5 text-xs font-medium uppercase tracking-wide ${
@@ -129,13 +130,13 @@ export default function CodeReviewPage() {
                       >
                         {f.severity}
                       </span>
-                      <span className="text-xs text-[#8B90A3]">
+                      <span className="text-xs text-[var(--color-muted)]">
                         {f.category}
                       </span>
                     </div>
                     <p className="text-[15px] leading-relaxed">{f.comment}</p>
                     {f.suggestion && (
-                      <p className="mt-2 border-l-2 border-[#E8A33D]/40 pl-3 text-sm text-[#8B90A3]">
+                      <p className="mt-2 border-l-2 border-[var(--color-accent)]/40 pl-3 text-sm text-[var(--color-muted)]">
                         {f.suggestion}
                       </p>
                     )}

@@ -47,17 +47,17 @@ export default function ArchitecturePage() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#12141C] text-[#EDEAE0]">
-      <header className="flex items-center justify-between border-b border-[#262A38] px-6 py-4">
+    <div className="flex min-h-screen flex-col bg-[var(--color-bg)] text-[var(--color-fg)]">
+      <header className="flex items-center justify-between border-b border-[var(--color-border)] px-6 py-4">
         <div className="flex items-center gap-4">
           <Link
             href={`/repo/${repositoryId}/chat`}
-            className="text-sm text-[#8B90A3] hover:text-[#E8A33D]"
+            className="text-sm text-[var(--color-muted)] hover:text-[var(--color-accent)]"
           >
             ← Back to chat
           </Link>
-          <div className="flex items-center gap-2 text-sm text-[#8B90A3]">
-            <span className="text-[#E8A33D]">◆</span>
+          <div className="flex items-center gap-2 text-sm text-[var(--color-muted)]">
+            <span className="text-[var(--color-accent)]">◆</span>
             <span>
               A map of this codebase, for someone seeing it the first time.
             </span>
@@ -69,12 +69,12 @@ export default function ArchitecturePage() {
       <main className="mx-auto w-full max-w-3xl flex-1 px-6 py-8">
         {!report && !loading && (
           <div className="mt-16 text-center">
-            <p className="mb-4 text-lg text-[#8B90A3]">
+            <p className="mb-4 text-lg text-[var(--color-muted)]">
               No architecture map yet.
             </p>
             <button
               onClick={generate}
-              className="rounded-xl bg-[#E8A33D] px-5 py-3 font-medium text-[#12141C]"
+              className="rounded-xl bg-[var(--color-accent)] px-5 py-3 font-medium text-[var(--color-bg)]"
             >
               Generate architecture overview
             </button>
@@ -103,21 +103,21 @@ export default function ArchitecturePage() {
                 <button
                   onClick={generate}
                   disabled={loading}
-                  className="rounded-lg border border-[#262A38] px-3 py-1.5 text-sm text-[#8B90A3] hover:border-[#E8A33D] hover:text-[#E8A33D]"
+                  className="rounded-lg border border-[var(--color-border)] px-3 py-1.5 text-sm text-[var(--color-muted)] hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]"
                 >
                   Regenerate
                 </button>
               </div>
 
-              <div className="rounded-2xl border border-[#262A38] bg-[#181B26] p-5">
+              <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-5">
                 <MessageContent content={report.summary} />
               </div>
 
               <details
-                className="rounded-2xl border border-[#262A38] bg-[#181B26] p-5"
+                className="rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-5"
                 open
               >
-                <summary className="cursor-pointer text-sm text-[#8B90A3]">
+                <summary className="cursor-pointer text-sm text-[var(--color-muted)]">
                   File tree ({report.fileTree.length} files) — click folders to
                   expand
                 </summary>

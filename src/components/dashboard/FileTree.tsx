@@ -76,12 +76,12 @@ function TreeRow({
         disabled={!onSelectFile}
         className={`flex w-full items-center gap-2 rounded px-2 py-1 text-left font-mono text-xs transition-colors ${
           selectedPath === node.path
-            ? "bg-[#E8A33D]/15 text-[#E8A33D]"
-            : "text-[#8B90A3] hover:bg-[#1F2330] hover:text-[#EDEAE0]"
+            ? "bg-[var(--color-accent)]/15 text-[var(--color-accent)]"
+            : "text-[var(--color-muted)] hover:bg-[#1F2330] hover:text-[var(--color-fg)]"
         }`}
         style={{ paddingLeft: `${depth * 16 + 8}px` }}
       >
-        <span className="text-[#E8A33D]">{iconFor(node.name)}</span>
+        <span className="text-[var(--color-accent)]">{iconFor(node.name)}</span>
         {node.name}
       </button>
     );
@@ -92,11 +92,11 @@ function TreeRow({
       {node.name && (
         <button
           onClick={() => setOpen(!open)}
-          className="flex w-full items-center gap-2 rounded px-2 py-1 font-mono text-xs text-[#EDEAE0] transition-colors hover:bg-[#1F2330]"
+          className="flex w-full items-center gap-2 rounded px-2 py-1 font-mono text-xs text-[var(--color-fg)] transition-colors hover:bg-[#1F2330]"
           style={{ paddingLeft: `${depth * 16 + 8}px` }}
         >
           <span
-            className="inline-block text-[#8B90A3] transition-transform duration-150"
+            className="inline-block text-[var(--color-muted)] transition-transform duration-150"
             style={{ transform: open ? "rotate(90deg)" : "rotate(0deg)" }}
           >
             ▸
@@ -129,7 +129,7 @@ export function FileTree({
 }) {
   const tree = buildTree(paths);
   return (
-    <div className="max-h-96 overflow-y-auto rounded-xl border border-[#262A38] bg-[#0F1119] p-2">
+    <div className="max-h-96 overflow-y-auto rounded-xl border border-[var(--color-border)] bg-[#0F1119] p-2">
       <TreeRow
         node={tree}
         depth={-1}

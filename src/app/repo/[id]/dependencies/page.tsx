@@ -35,17 +35,17 @@ export default function DependenciesPage() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#12141C] text-[#EDEAE0]">
-      <header className="flex items-center justify-between border-b border-[#262A38] px-6 py-4">
+    <div className="flex min-h-screen flex-col bg-[var(--color-bg)] text-[var(--color-fg)]">
+      <header className="flex items-center justify-between border-b border-[var(--color-border)] px-6 py-4">
         <div className="flex items-center gap-4">
           <Link
             href={`/repo/${repositoryId}/chat`}
-            className="text-sm text-[#8B90A3] hover:text-[#E8A33D]"
+            className="text-sm text-[var(--color-muted)] hover:text-[var(--color-accent)]"
           >
             ← Back to chat
           </Link>
-          <div className="flex items-center gap-2 text-sm text-[#8B90A3]">
-            <span className="text-[#E8A33D]">◆</span>
+          <div className="flex items-center gap-2 text-sm text-[var(--color-muted)]">
+            <span className="text-[var(--color-accent)]">◆</span>
             <span>
               What's in package.json, and what it's quietly costing you.
             </span>
@@ -59,7 +59,7 @@ export default function DependenciesPage() {
           <div className="mt-16 text-center">
             <button
               onClick={analyze}
-              className="rounded-xl bg-[#E8A33D] px-5 py-3 font-medium text-[#12141C]"
+              className="rounded-xl bg-[var(--color-accent)] px-5 py-3 font-medium text-[var(--color-bg)]"
             >
               Analyze dependencies
             </button>
@@ -88,7 +88,7 @@ export default function DependenciesPage() {
               </h1>
               <button
                 onClick={analyze}
-                className="rounded-lg border border-[#262A38] px-3 py-1.5 text-sm text-[#8B90A3] hover:border-[#E8A33D] hover:text-[#E8A33D]"
+                className="rounded-lg border border-[var(--color-border)] px-3 py-1.5 text-sm text-[var(--color-muted)] hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]"
               >
                 Re-analyze
               </button>
@@ -96,22 +96,22 @@ export default function DependenciesPage() {
 
             {packages.map((pkg, i) => (
               <FadeIn key={pkg.name} delay={i * 60}>
-                <div className="rounded-xl border border-[#262A38] bg-[#181B26] p-4">
+                <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
                   <div className="flex items-center justify-between">
                     <span className="font-mono text-sm">{pkg.name}</span>
-                    <span className="font-mono text-xs text-[#8B90A3]">
+                    <span className="font-mono text-xs text-[var(--color-muted)]">
                       {pkg.declaredRange}{" "}
                       {pkg.latestVersion && `→ latest ${pkg.latestVersion}`}
                     </span>
                   </div>
                   <div className="mt-2 flex flex-wrap gap-1.5">
                     {pkg.isOutdated && (
-                      <span className="rounded-full border border-[#E8A33D]/30 bg-[#E8A33D]/15 px-2 py-0.5 text-xs text-[#E8A33D]">
+                      <span className="rounded-full border border-[var(--color-accent)]/30 bg-[var(--color-accent)]/15 px-2 py-0.5 text-xs text-[var(--color-accent)]">
                         Outdated
                       </span>
                     )}
                     {pkg.possiblyUnused && (
-                      <span className="rounded-full border border-[#8B90A3]/30 bg-[#8B90A3]/15 px-2 py-0.5 text-xs text-[#8B90A3]">
+                      <span className="rounded-full border border-[var(--color-muted)]/30 bg-[var(--color-muted)]/15 px-2 py-0.5 text-xs text-[var(--color-muted)]">
                         Possibly unused
                       </span>
                     )}

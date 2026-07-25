@@ -13,18 +13,18 @@ export function ThinkingSteps({ steps }: { steps: string[] }) {
   }, [steps.length]);
 
   return (
-    <div className="flex items-center gap-2 font-mono text-sm text-[#8B90A3]">
+    <div className="flex items-center gap-2 font-mono text-sm text-[var(--color-muted)]">
       <span className="flex gap-1">
         <span
-          className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#E8A33D]"
+          className="h-1.5 w-1.5 animate-pulse rounded-full bg-[var(--color-accent)]"
           style={{ animationDelay: "0ms" }}
         />
         <span
-          className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#E8A33D]"
+          className="h-1.5 w-1.5 animate-pulse rounded-full bg-[var(--color-accent)]"
           style={{ animationDelay: "200ms" }}
         />
         <span
-          className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#E8A33D]"
+          className="h-1.5 w-1.5 animate-pulse rounded-full bg-[var(--color-accent)]"
           style={{ animationDelay: "400ms" }}
         />
       </span>

@@ -13,8 +13,10 @@ type Repo = {
 };
 
 const STATUS_STYLES: Record<string, string> = {
-  pending: "bg-[#8B90A3]/15 text-[#8B90A3] border-[#8B90A3]/30",
-  indexing: "bg-[#E8A33D]/15 text-[#E8A33D] border-[#E8A33D]/30",
+  pending:
+    "bg-[var(--color-muted)]/15 text-[var(--color-muted)] border-[var(--color-muted)]/30",
+  indexing:
+    "bg-[var(--color-accent)]/15 text-[var(--color-accent)] border-[var(--color-accent)]/30",
   ready: "bg-green-500/15 text-green-400 border-green-500/30",
   failed: "bg-red-500/15 text-red-400 border-red-500/30",
 };
@@ -61,10 +63,10 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-[#12141C] text-[#EDEAE0]">
-      <header className="flex items-center justify-between border-b border-[#262A38] px-6 py-4">
-        <div className="flex items-center gap-2 text-sm text-[#8B90A3]">
-          <span className="text-[#E8A33D]">◆</span>
+    <div className="min-h-screen bg-[var(--color-bg)] text-[var(--color-fg)]">
+      <header className="flex items-center justify-between border-b border-[var(--color-border)] px-6 py-4">
+        <div className="flex items-center gap-2 text-sm text-[var(--color-muted)]">
+          <span className="text-[var(--color-accent)]">◆</span>
           <span>DevLens AI</span>
         </div>
         <UserButton />
@@ -75,7 +77,7 @@ export default function Dashboard() {
 
         <div className="mb-8 flex gap-2">
           <input
-            className="flex-1 rounded-xl border border-[#262A38] bg-[#181B26] px-4 py-3 text-[15px] text-[#EDEAE0] placeholder:text-[#8B90A3] focus:border-[#E8A33D] focus:outline-none"
+            className="flex-1 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-3 text-[15px] text-[var(--color-fg)] placeholder:text-[var(--color-muted)] focus:border-[var(--color-accent)] focus:outline-none"
             placeholder="https://github.com/owner/repo"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
@@ -84,14 +86,14 @@ export default function Dashboard() {
           <button
             onClick={handleImport}
             disabled={loading || !url.trim()}
-            className="rounded-xl bg-[#E8A33D] px-5 py-3 font-medium text-[#12141C] disabled:opacity-40"
+            className="rounded-xl bg-[var(--color-accent)] px-5 py-3 font-medium text-[var(--color-bg)] disabled:opacity-40"
           >
             {loading ? "Importing…" : "Import"}
           </button>
         </div>
 
         {repos.length === 0 && (
-          <p className="text-center text-[#8B90A3]">
+          <p className="text-center text-[var(--color-muted)]">
             No repositories yet — import one above to get started.
           </p>
         )}
@@ -99,7 +101,7 @@ export default function Dashboard() {
         <div className="space-y-3">
           {repos.map((repo, i) => (
             <FadeIn key={repo.id} delay={i * 60}>
-              <div className="rounded-2xl border border-[#262A38] bg-[#181B26] p-4">
+              <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
                 <div className="mb-3 flex items-center justify-between">
                   <span className="font-medium">{repo.name}</span>
                   <span
@@ -117,14 +119,14 @@ export default function Dashboard() {
                       <Link
                         key={link.path}
                         href={`/repo/${repo.id}/${link.path}`}
-                        className="rounded-lg border border-[#262A38] px-3 py-1 text-xs text-[#8B90A3] transition-colors hover:border-[#E8A33D] hover:text-[#E8A33D]"
+                        className="rounded-lg border border-[var(--color-border)] px-3 py-1 text-xs text-[var(--color-muted)] transition-colors hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]"
                       >
                         {link.label}
                       </Link>
                     ))}
                   </div>
                 ) : (
-                  <p className="text-sm text-[#8B90A3]">
+                  <p className="text-sm text-[var(--color-muted)]">
                     {repo.status === "failed"
                       ? "Indexing failed — try re-importing."
                       : "Indexing in progress…"}

@@ -36,12 +36,12 @@ export function MessageContent({ content }: { content: string }) {
             key={i}
             className="overflow-hidden rounded-lg border border-[#2E3444]"
           >
-            <div className="flex items-center justify-between bg-[#0F1119] px-3 py-1 font-mono text-[11px] text-[#8B90A3]">
+            <div className="flex items-center justify-between bg-[#0F1119] px-3 py-1 font-mono text-[11px] text-[var(--color-muted)]">
               <span>{seg.lang}</span>
               <span className="flex gap-1">
-                <span className="h-2 w-2 rounded-full bg-[#E8A33D]/40" />
-                <span className="h-2 w-2 rounded-full bg-[#E8A33D]/40" />
-                <span className="h-2 w-2 rounded-full bg-[#E8A33D]/40" />
+                <span className="h-2 w-2 rounded-full bg-[var(--color-accent)]/40" />
+                <span className="h-2 w-2 rounded-full bg-[var(--color-accent)]/40" />
+                <span className="h-2 w-2 rounded-full bg-[var(--color-accent)]/40" />
               </span>
             </div>
             <pre className="overflow-x-auto bg-[#0F1119] p-3 font-mono text-[13px] leading-relaxed text-[#C9E8A0]">
